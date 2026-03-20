@@ -1,0 +1,6 @@
+__pycache__/
+relatorios/
+*.xlsx
+*.csv
+.env
+.vscode/
