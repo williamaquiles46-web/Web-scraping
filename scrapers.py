@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 def configurar_driver():
     chrome_options = Options()
-    # chrome_options.add_argument("--headless")
+   
     chrome_options.add_argument("--window-size=1366,768")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -21,7 +21,7 @@ def configurar_driver():
     )
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
-    # Oculta o navigator.webdriver (anti-bot do ML/Amazon)
+    
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
     return driver
 
@@ -40,7 +40,7 @@ def buscarMercadoLivre(query):
 
         for item in itens[:5]:
             try:
-                # ML agora usa <h3> com <a class="poly-component__title"> dentro
+                
                 link_tag = item.find('a', class_='poly-component__title')
                 if not link_tag:
                     print("  [ML] Título não encontrado, pulando item.")
@@ -48,7 +48,7 @@ def buscarMercadoLivre(query):
                 nome = link_tag.get_text(strip=True)
                 link = link_tag['href']
 
-                # Preço atual fica dentro de .poly-price__current
+                
                 preco_atual = item.find('div', class_='poly-price__current')
                 if not preco_atual:
                     print(f"  [ML] Preço não encontrado para: {nome[:40]}")
@@ -99,26 +99,26 @@ def buscarAmazon(query):
         itens = soup.find_all('div', {'data-component-type': 's-search-result'})
         print(f"DEBUG Amazon: Encontrei {len(itens)} blocos.")
 
-        for item in itens[:10]:  # pega mais itens pois alguns não têm preço
+        for item in itens[:10]:  
             if len(results) >= 5:
                 break
             try:
-                # Título
+               
                 nome_tag = item.find('h2')
                 if not nome_tag:
                     continue
                 link_tag = nome_tag.find('a', href=True)
                 nome = nome_tag.get_text(strip=True)
 
-                # Preço — Amazon às vezes esconde em span aninhado
+                
                 preco_whole = item.find('span', class_='a-price-whole')
                 if not preco_whole:
                     print(f"  [AMZ] Sem preço para: {nome[:40]}")
                     continue
 
-                # Remove pontos de milhar e vírgula decimal do inteiro
+            
                 preco_limpo = preco_whole.text.strip().replace('.', '').replace(',', '').replace('\xa0', '')
-                # Remove qualquer caractere não-dígito que sobrar (ex: ".")
+             
                 preco_limpo = ''.join(filter(str.isdigit, preco_limpo))
 
                 centavos_tag = item.find('span', class_='a-price-fraction')
