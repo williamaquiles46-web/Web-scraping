@@ -24,10 +24,10 @@ def executar_comparador():
     res_amz = buscarAmazon(produto_busca)
     print(f"   -> Recebi {len(res_amz)} produtos da Amazon") 
     
-    # 2. Une os resultados
+   
     todos_resultados = res_ml + res_amz
 
-    # VERIFICAÇÃO CRÍTICA
+    
     if not todos_resultados:
         print("\n❌ Erro: As listas voltaram vazias para o programa principal.")
         return
