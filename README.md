@@ -10,4 +10,4 @@ Este é um projeto de **Web Scraping** desenvolvido em Python para automatizar a
 * **Pandas**: Para tratamento de dados e organização.
 * **Openpyxl**: Para exportação dos relatórios em Excel.
 * **WebDriver Manager**: Para gerenciamento automático do ChromeDriver.
-* 
+  
